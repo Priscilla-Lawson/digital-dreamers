@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>Programmer's Hall of Fame</h1>
+    <div class="slideshow">
+        <div class="slide" id="slide1">
+            <img src="https://cdn.codewizardshq.com/f3994491cdbe43bed74b102d2b4abd61dce2ce092617d1e76642d49a6a828047.png" alt="Photo of Ada Lovelace " class="slide-image">
+            <span class="text">1. Ada Lovelace - The first computer programmer</span>
+        </div>
+        <div class="slide" id="slide2">
+            <img src="https://cdn.codewizardshq.com/f03bc918f2aa4c233161d73d4e6dc10297b9f3e3fb9ddfe34c35ac34a0afcf3b.jpg" alt="Photo of Tim Berners-Lee" class="slide-image">
+            <span class="text">2. Tim Berners-Lee - Creartor of HTML</span>
+        </div>
+        <div class="slide" id="slide3">
+            <img src="https://cdn.codewizardshq.com/cc8ee2960dc8fcf7e39752bc10a38e6387339db1e2b0aebf990be9a792828883.jpg" alt="Photo of Guido van Rossum" class="slide-image">
+            <span class="text">3. Guido van Rossum - Creator of Python</span>
+        </div>
+        <div class="slide" id="slide4">
+            <img src="https://cdn.codewizardshq.com/dfad96958413e0ad082a0fb1baf5474e078bcd788c7c6c802ce3275ce9b47fea.jpg" alt="Photo of James Gosling" class="slide-image">
+            <span class="text">4. James Gosling - Creator of Java</span>
+        </div>
+        <img src="https://cdn.codewizardshq.com/18785b0712f48a1540546af01bd146ae3d93848fef55e24072b83ae5d739c710.png" alt="Next Icon" class="icon" id="next-icon">
+        <img src="https://cdn.codewizardshq.com/18785b0712f48a1540546af01bd146ae3d93848fef55e24072b83ae5d739c710.png" alt="Previous Icon" class="icon" id="previous-icon">
+        <div class="progress-bar"></div>
+        <p id="play-puase">⏯</p>
+    </div>
+    <div class="links">
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+    </div>
+    <script>
+                var slides = $('.slide');
+        var currentSlide = 1;
+
+        function changeSlide(){
+            $('.slide').css('opacity', '0');
+            var cssObj = {opacity: '1'};
+            $('#slide'+currentSlide).animate(cssObj, 500);
+            var totalSlides = $('.slide').length;
+            var progress = (currentSlide/totalSlides) * 100;
+            var obj = {width: progress + '%'};
+            $('.progress-bar').animate(obj, 500);
+        }
+        changeSlide();
+
+        function next(){
+            if(currentSlide < slides.length){
+                currentSlide = currentSlide + 1;
+            }
+            else{
+                currentSlide = 1;
+            }
+            changeSlide();
+            time();
+        }
+        $("#next-icon").click(next);
+
+        function time(){
+            var timer =  setTimeout(next, 7000);
+        }
+        time();
+
+        function previous(){
+            if(currentSlide > 1){
+                currentSlide = currentSlide - 1;
+            }
+            else{
+                currentSlide = slides.length;
+            }
+            changeSlide();
+        }
+        $('#previous-icon').click(previous);
+
+        function goTo(event){
+            var clicked = event.currentTarget;
+            var someText = $(clicked).text();
+            currentSlide = parseInt(someText);
+            changeSlide();
+        }
+        $('button').click(goTo);
+
+    </script>
+</body>
+</html>
